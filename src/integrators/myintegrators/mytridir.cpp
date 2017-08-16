@@ -25,128 +25,128 @@ MTS_NAMESPACE_BEGIN
 
 class MyTriDirIntegrator : public Integrator {
 public:
-	MyTriDirIntegrator(const Properties &props) : Integrator(props) {
-		/* Depth to begin using russian roulette */
-		m_rrDepth = props.getInteger("rrDepth", 5);
+    MyTriDirIntegrator(const Properties &props) : Integrator(props) {
+        /* Depth to begin using russian roulette */
+        m_rrDepth = props.getInteger("rrDepth", 5);
 
-		/* Longest visualized path depth (\c -1 = infinite).
-		   A value of \c 1 will visualize only directly visible light sources.
-		   \c 2 will lead to single-bounce (direct-only) illumination, and so on. */
-		m_maxDepth = props.getInteger("maxDepth", 6);
-		SAssert(m_maxDepth != -1);
+        /* Longest visualized path depth (\c -1 = infinite).
+           A value of \c 1 will visualize only directly visible light sources.
+           \c 2 will lead to single-bounce (direct-only) illumination, and so on. */
+        m_maxDepth = props.getInteger("maxDepth", 6);
+        SAssert(m_maxDepth != -1);
 
-		/* When this flag is set to true, contributions from directly
-		 * visible emitters will not be included in the rendered image */
-		m_hideEmitters = props.getBoolean("hideEmitters", false);
-	}
+        /* When this flag is set to true, contributions from directly
+         * visible emitters will not be included in the rendered image */
+        m_hideEmitters = props.getBoolean("hideEmitters", false);
+    }
 
-	/// Unserialize from a binary data stream
-	MyTriDirIntegrator(Stream *stream, InstanceManager *manager)
-	 : Integrator(stream, manager) {
-		m_hideEmitters = stream->readBool();
-		configure();
-	}
+    /// Unserialize from a binary data stream
+    MyTriDirIntegrator(Stream *stream, InstanceManager *manager)
+     : Integrator(stream, manager) {
+        m_hideEmitters = stream->readBool();
+        configure();
+    }
 
-	void serialize(Stream *stream, InstanceManager *manager) const {
-		Integrator::serialize(stream, manager);
-		stream->writeBool(m_hideEmitters);
-	}
+    void serialize(Stream *stream, InstanceManager *manager) const {
+        Integrator::serialize(stream, manager);
+        stream->writeBool(m_hideEmitters);
+    }
 
-	void configure() {
-		Integrator::configure();
-	}
+    void configure() {
+        Integrator::configure();
+    }
 
-	bool preprocess(const Scene *scene, RenderQueue *queue, const RenderJob *job,
-			int sceneResID, int sensorResID, int samplerResID) {
-		Integrator::preprocess(scene, queue, job, sceneResID, sensorResID, samplerResID);
-		m_raycaster = std::make_unique<Raycast>(scene);
-		return true;
-	}
+    bool preprocess(const Scene *scene, RenderQueue *queue, const RenderJob *job,
+            int sceneResID, int sensorResID, int samplerResID) {
+        Integrator::preprocess(scene, queue, job, sceneResID, sensorResID, samplerResID);
+        m_raycaster = std::make_unique<Raycast>(scene);
+        return true;
+    }
 
-	void cancel() {
-		m_running = false;
-	}
+    void cancel() {
+        m_running = false;
+    }
 
-	void configureSampler(const Scene *scene, Sampler *sampler) {
-		/* Prepare the sampler for tile-based rendering */
-		sampler->setFilmResolution(scene->getFilm()->getCropSize(), true);
-	}
+    void configureSampler(const Scene *scene, Sampler *sampler) {
+        /* Prepare the sampler for tile-based rendering */
+        sampler->setFilmResolution(scene->getFilm()->getCropSize(), true);
+    }
 
-	bool render(Scene *scene, RenderQueue *queue, const RenderJob *job,
-			int sceneResID, int sensorResID, int samplerResID) {
-		ref<Scheduler> sched = Scheduler::getInstance();
-		ref<Sensor> sensor = scene->getSensor();
-		ref<Film> film = sensor->getFilm();
-		ref<Sampler> sampler = scene->getSampler();
-		size_t nCores = sched->getCoreCount();
-		Log(EInfo, "Starting render job (%ix%i, " SIZE_T_FMT " %s, " SSE_STR ") ..",
-			film->getCropSize().x, film->getCropSize().y,
-			nCores, nCores == 1 ? "core" : "cores");
+    bool render(Scene *scene, RenderQueue *queue, const RenderJob *job,
+            int sceneResID, int sensorResID, int samplerResID) {
+        ref<Scheduler> sched = Scheduler::getInstance();
+        ref<Sensor> sensor = scene->getSensor();
+        ref<Film> film = sensor->getFilm();
+        ref<Sampler> sampler = scene->getSampler();
+        size_t nCores = sched->getCoreCount();
+        Log(EInfo, "Starting render job (%ix%i, " SIZE_T_FMT " %s, " SSE_STR ") ..",
+            film->getCropSize().x, film->getCropSize().y,
+            nCores, nCores == 1 ? "core" : "cores");
 
-		// TODO: take cropOffset into account
-		//Point2i cropOffset = film->getCropOffset();
-		Vector2i cropSize = film->getCropSize();
-		ref<ImageBlock> imageBlock = new ImageBlock(Bitmap::ESpectrum,
-			cropSize, film->getReconstructionFilter());
-		imageBlock->setOffset(Point2i(imageBlock->getBorderSize(), imageBlock->getBorderSize()));
-		ref<Bitmap> bitmap = new Bitmap(Bitmap::ESpectrum, Bitmap::EFloat, film->getSize());
-		imageBlock->clear();
-		bitmap->clear();
-		film->clear();
-		m_running = true;
+        // TODO: take cropOffset into account
+        //Point2i cropOffset = film->getCropOffset();
+        Vector2i cropSize = film->getCropSize();
+        ref<ImageBlock> imageBlock = new ImageBlock(Bitmap::ESpectrum,
+            cropSize, film->getReconstructionFilter());
+        imageBlock->setOffset(Point2i(imageBlock->getBorderSize(), imageBlock->getBorderSize()));
+        ref<Bitmap> bitmap = new Bitmap(Bitmap::ESpectrum, Bitmap::EFloat, film->getSize());
+        imageBlock->clear();
+        bitmap->clear();
+        film->clear();
+        m_running = true;
 
-	    const int tileSize = scene->getBlockSize();
-	    const int nXTiles = (cropSize.x + tileSize - 1) / tileSize;
-	    const int nYTiles = (cropSize.y + tileSize - 1) / tileSize;
+        const int tileSize = scene->getBlockSize();
+        const int nXTiles = (cropSize.x + tileSize - 1) / tileSize;
+        const int nYTiles = (cropSize.y + tileSize - 1) / tileSize;
         MyProgressReporter reporter(nXTiles * nYTiles);
-	    bool unfinished = false;
-	    std::mutex mutex;
+        bool unfinished = false;
+        std::mutex mutex;
 
-		ParallelFor([&](const Vector2i tile) {
-			ref<Sampler> clonedSampler = sampler->clone();
-        	const int x0 = tile.x * tileSize;
-        	const int x1 = std::min(x0 + tileSize, cropSize.x);
-        	const int y0 = tile.y * tileSize;
-        	const int y1 = std::min(y0 + tileSize, cropSize.y);
-			// For each pixel
-			for (int y = y0; y < y1; y++) {
-				for (int x = x0; x < x1; x++) {
-					if (!m_running) {
-						unfinished = true;
-						return;
-					}
-					// For each sample
-					for (int sampleId = 0; sampleId < sampler->getSampleCount(); sampleId++) {
-						render(scene, clonedSampler, imageBlock.get(), x, y, mutex);
-					}
-				}
-			}
-			std::lock_guard<std::mutex> lock(mutex);
-			bitmap->copyFrom(imageBlock->getBitmap());
-			film->setBitmap(bitmap, Float(1) / sampler->getSampleCount());
-			queue->signalRefresh(job);
+        ParallelFor([&](const Vector2i tile) {
+            ref<Sampler> clonedSampler = sampler->clone();
+            const int x0 = tile.x * tileSize;
+            const int x1 = std::min(x0 + tileSize, cropSize.x);
+            const int y0 = tile.y * tileSize;
+            const int y1 = std::min(y0 + tileSize, cropSize.y);
+            // For each pixel
+            for (int y = y0; y < y1; y++) {
+                for (int x = x0; x < x1; x++) {
+                    if (!m_running) {
+                        unfinished = true;
+                        return;
+                    }
+                    // For each sample
+                    for (int sampleId = 0; sampleId < sampler->getSampleCount(); sampleId++) {
+                        render(scene, clonedSampler, imageBlock.get(), x, y, mutex);
+                    }
+                }
+            }
+            std::lock_guard<std::mutex> lock(mutex);
+            bitmap->copyFrom(imageBlock->getBitmap());
+            film->setBitmap(bitmap, Float(1) / sampler->getSampleCount());
+            queue->signalRefresh(job);
             reporter.Update(1);
-		}, Vector2i(nXTiles, nYTiles));
-		TerminateWorkerThreads();
+        }, Vector2i(nXTiles, nYTiles));
+        TerminateWorkerThreads();
 
-		if (unfinished) {
-			return false;
-		}
+        if (unfinished) {
+            return false;
+        }
 
         reporter.Done();
-		return true;
-	}
+        return true;
+    }
 
-	struct SplatElement {
-		Point2 position;
-		Spectrum contribution;
-		int pathLength;
-		int sensorSubpathIndex;
-	};
+    struct SplatElement {
+        Point2 position;
+        Spectrum contribution;
+        int pathLength;
+        int sensorSubpathIndex;
+    };
 
-	void render(const Scene *scene, Sampler *sampler, ImageBlock *imageBlock, const int x, const int y,
-				std::mutex &mutex) {
-		UniDist uniDist(sampler);
+    void render(const Scene *scene, Sampler *sampler, ImageBlock *imageBlock, const int x, const int y,
+                std::mutex &mutex) {
+        UniDist uniDist(sampler);
 
         // TODO: move triangle co-ordinates to scene file
         // cbox_keyhole
@@ -220,12 +220,12 @@ public:
         emitterSubpath.Sample();
         // Loop until reaching specified maximum depth
         // e.g. if maxDepth == 2, we don't need sensorSubpath.Size() > 3
-		for(;emitterSubpath.Size() <= m_maxDepth;) {
-			AppendBSDF(emitterSubpath, uniDist, *m_raycaster);
-			emitterSubpath.Sample();
-		}
+        for(;emitterSubpath.Size() <= m_maxDepth;) {
+            AppendBSDF(emitterSubpath, uniDist, *m_raycaster);
+            emitterSubpath.Sample();
+        }
 
-		// Combine
+        // Combine
         std::vector<SplatElement> splats;
         for (int pathLength = 2; pathLength <= m_maxDepth; pathLength++) {
             std::vector<RandomSequence<Vertex>> paths;
@@ -273,86 +273,86 @@ public:
             estimate(scene, imageBlock, paths, time, splats, occlusionCache);
         }
 
-		std::lock_guard<std::mutex> lock(mutex);
+        std::lock_guard<std::mutex> lock(mutex);
 
-		if (!m_hideEmitters) {
-			auto path = sensorSubpath.Slice(0, 2);
-			if (path.AllValid()) {
-				Spectrum contribution = estimateBidir(scene, make_view(path));
-				Point2 position;
-				if (project(scene, sensorSubpath, position)) {
-					imageBlock->put(position, &contribution[0]);
-				}
-			}
-		}
+        if (!m_hideEmitters) {
+            auto path = sensorSubpath.Slice(0, 2);
+            if (path.AllValid()) {
+                Spectrum contribution = estimateBidir(scene, make_view(path));
+                Point2 position;
+                if (project(scene, sensorSubpath, position)) {
+                    imageBlock->put(position, &contribution[0]);
+                }
+            }
+        }
 
-		for (const auto &splatElement : splats) {
-			Point2 position = splatElement.position;
-			Spectrum contribution = splatElement.contribution;
-			imageBlock->put(position, &contribution[0]);
-		}
-	}
+        for (const auto &splatElement : splats) {
+            Point2 position = splatElement.position;
+            Spectrum contribution = splatElement.contribution;
+            imageBlock->put(position, &contribution[0]);
+        }
+    }
 
-	void estimate(const Scene *scene,
-				  ImageBlock *imageBlock,
-				  const std::vector<RandomSequence<Vertex>> &paths,
-				  const Float time,
-				  std::vector<SplatElement> &splats,
-				  OcclusionCache& occlusionCache) const {
-		std::vector<double> pdfs;
-		for (size_t i = 0; i < paths.size(); i++) {
-			const RandomSequence<Vertex> &path = paths[i];
-			if (!path.AllValid()) {
-				continue;
-			}
-			Point2 position;
-			if (!project(scene, path, position)) {
-				continue;
-			}
-      		// TODO: improve this; check only the connection edges
-      		bool occ = false;
-			for (size_t j = 0, N = path.Size() - 1; j < N; j++) {
-        		if (occlusionCache.Query(std::make_pair(path[j].Value(), path[j + 1].Value()))) {
-          			occ = true;
-          			break;
-        		}
-			}
-      		if (occ) {
-        		continue;
-      		}
-			Spectrum contribution = estimateBidir(scene, make_view(path));
-			if (contribution.isZero()) {
-				continue;
-			}
+    void estimate(const Scene *scene,
+                  ImageBlock *imageBlock,
+                  const std::vector<RandomSequence<Vertex>> &paths,
+                  const Float time,
+                  std::vector<SplatElement> &splats,
+                  OcclusionCache& occlusionCache) const {
+        std::vector<double> pdfs;
+        for (size_t i = 0; i < paths.size(); i++) {
+            const RandomSequence<Vertex> &path = paths[i];
+            if (!path.AllValid()) {
+                continue;
+            }
+            Point2 position;
+            if (!project(scene, path, position)) {
+                continue;
+            }
+            // TODO: improve this; check only the connection edges
+            bool occ = false;
+            for (size_t j = 0, N = path.Size() - 1; j < N; j++) {
+                if (occlusionCache.Query(std::make_pair(path[j].Value(), path[j + 1].Value()))) {
+                    occ = true;
+                    break;
+                }
+            }
+            if (occ) {
+                continue;
+            }
+            Spectrum contribution = estimateBidir(scene, make_view(path));
+            if (contribution.isZero()) {
+                continue;
+            }
 
-			pdfs.clear();
-			for (size_t j = 0; j < paths.size(); j++) {
-				double pdf = paths[j].Pdf(path);
-				pdfs.push_back(pdf);
-			}
-			double weight = misWeight(i, pdfs);
-			Spectrum weightedContribution = weight * contribution;
-			int pathLength = path.Size() - 1;
-			splats.push_back(SplatElement{position, weightedContribution, pathLength, (int)i});
-		}
-	}
+            pdfs.clear();
+            for (size_t j = 0; j < paths.size(); j++) {
+                double pdf = paths[j].Pdf(path);
+                pdfs.push_back(pdf);
+            }
+            double weight = misWeight(i, pdfs);
+            Spectrum weightedContribution = weight * contribution;
+            int pathLength = path.Size() - 1;
+            splats.push_back(SplatElement{position, weightedContribution, pathLength, (int)i});
+        }
+    }
 
-	std::string toString() const {
-		std::ostringstream oss;
-		oss << "MyTriDirIntegrator[" << endl
-			<< "  hideEmitters = " << m_hideEmitters << endl
-			<< "]";
-		return oss.str();
-	}
+    std::string toString() const {
+        std::ostringstream oss;
+        oss << "MyTriDirIntegrator[" << endl
+            << "  hideEmitters = " << m_hideEmitters << endl
+            << "]";
+        return oss.str();
+    }
 
-	MTS_DECLARE_CLASS()
+    MTS_DECLARE_CLASS()
 private:
-	bool m_hideEmitters;
-	int m_rrDepth;
-	int m_maxDepth;
+    bool m_hideEmitters;
+    int m_rrDepth;
+    int m_maxDepth;
 
-	std::unique_ptr<Raycast> m_raycaster;
-	bool m_running;
+    std::unique_ptr<Raycast> m_raycaster;
+    bool m_running;
 };
 
 MTS_IMPLEMENT_CLASS_S(MyTriDirIntegrator, false, SamplingIntegrator)

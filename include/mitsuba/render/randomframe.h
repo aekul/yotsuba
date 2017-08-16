@@ -20,9 +20,9 @@ inline auto make_random_frame(const S &s, const T &t, const N &n) {
 }
 
 inline auto make_random_frame(const Frame &frame) {
-  return make_random_frame(constant(to_vector3(frame.s)),
-                           constant(to_vector3(frame.t)),
-                           constant(to_vector3(frame.n)));
+    return make_random_frame(constant(to_vector3(frame.s)),
+                             constant(to_vector3(frame.t)),
+                             constant(to_vector3(frame.n)));
 }
 
 inline auto make_random_frame(const Intersection &its) {
@@ -38,19 +38,19 @@ inline auto make_random_frame(const Transform &trafo) {
 }
 
 inline auto make_random_frame(const mitsuba::Vector &N) {
-  return make_random_frame(mitsuba::Frame(N));
+    return make_random_frame(mitsuba::Frame(N));
 }
 
 template<typename N>
 inline auto make_random_frame(const N &n) {
-  auto a = make_random_vector(make_random_var(zero), -at<2>(n), at<1>(n));
-  auto b = make_random_vector(at<2>(n), make_random_var(zero), -at<0>(n));
-  auto s = normalize(pattern(
-    when(dot(a, a) - dot(b, b) > make_random_var(zero), a)
-    , otherwise(b)
-  ));
-  auto t = cross(n, s);
-  return make_random_frame(s, t, n);
+    auto a = make_random_vector(make_random_var(zero), -at<2>(n), at<1>(n));
+    auto b = make_random_vector(at<2>(n), make_random_var(zero), -at<0>(n));
+    auto s = normalize(pattern(
+       when(dot(a, a) - dot(b, b) > make_random_var(zero), a)
+        , otherwise(b)
+    ));
+    auto t = cross(n, s);
+    return make_random_frame(s, t, n);
 }
 
 template<typename RandomFrame, typename LocalDir>

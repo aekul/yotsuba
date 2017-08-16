@@ -11,17 +11,17 @@ constexpr auto intersect_sphere(const SO &so, // sphere origin
                                 const SR &sr, // sphere radius
                                 const Org &org,
                                 const Dir &dir) {
-  // intersect ray(o, d) with sphere(so, sr)
-  // Solve t^2*d.d + 2*t*(so-o).d + (so-o).(so-o) = SR^2 
-  auto od = so - org;
-  auto proj = dot(od, dir);
-  auto det = sqrt(sq(proj) - dot(od, od) + sq(sr));
-  auto t = pattern(
-    when(length(od) > sr, proj - det)
-    , otherwise(proj + det)
-  );
-  auto pt = org + dir * t;
-  return pt;
+    // intersect ray(o, d) with sphere(so, sr)
+    // Solve t^2*d.d + 2*t*(so-o).d + (so-o).(so-o) = SR^2 
+    auto od = so - org;
+    auto proj = dot(od, dir);
+    auto det = sqrt(sq(proj) - dot(od, od) + sq(sr));
+    auto t = pattern(
+        when(length(od) > sr, proj - det)
+        , otherwise(proj + det)
+    );
+    auto pt = org + dir * t;
+    return pt;
 }
 
 constexpr auto CosHemisphereRV() {

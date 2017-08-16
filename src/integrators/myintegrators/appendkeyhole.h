@@ -11,6 +11,6 @@ struct UniDist;
 struct Raycast;
 
 void AppendKeyhole(RandomSequence<Vertex> &path, UniDist &uniDist, const Raycast &raycaster,
-				   const std::vector<std::array<aether::Vector3, 3>>& tris);
+                   const std::vector<std::array<aether::Vector3, 3>>& tris);
 
 MTS_NAMESPACE_END

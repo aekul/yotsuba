@@ -11,6 +11,6 @@ struct UniDist;
 struct Raycast;
 
 void AppendBSDF(RandomSequence<Vertex> &path, UniDist &uniDist, const Raycast &raycaster,
-	const int rrDepth = -1, const uint32_t componentMask = BSDF::EAll);
+                const int rrDepth = -1, const uint32_t componentMask = BSDF::EAll);
 
 MTS_NAMESPACE_END
