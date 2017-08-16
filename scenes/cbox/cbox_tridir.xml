@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+
+	Automatically converted from Wavefront OBJ
+
+-->
+
+<scene version="0.5.0">
+	<integrator type="mytridir"/>
+
+	<bsdf type="diffuse" id="backWall_material">
+		<rgb name="reflectance" value="0.2957 0.282465 0.25705"/>
+	</bsdf>
+
+	<bsdf type="diffuse" id="ceiling_material">
+		<rgb name="reflectance" value="0.2957 0.282465 0.25705"/>
+	</bsdf>
+
+	<bsdf type="diffuse" id="floor_material">
+		<rgb name="reflectance" value="0.2957 0.282465 0.25705"/>
+	</bsdf>
+
+	<bsdf type="diffuse" id="keyhole_material">
+		<rgb name="reflectance" value="0.2957 0.282465 0.25705"/>
+	</bsdf>
+
+	<bsdf type="diffuse" id="leftWall_material">
+		<rgb name="reflectance" value="0.217762 0.00411827 0.00309598"/>
+	</bsdf>
+
+	<bsdf type="diffuse" id="light_material">
+		<rgb name="reflectance" value="0.347281 0.347281 0.347281"/>
+	</bsdf>
+
+	<bsdf type="diffuse" id="rightWall_material">
+		<rgb name="reflectance" value="0.0119871 0.106539 0.00630766"/>
+	</bsdf>
+
+	<bsdf type="diffuse" id="shortBox_material">
+		<rgb name="reflectance" value="0.2957 0.282465 0.25705"/>
+	</bsdf>
+
+	<bsdf type="diffuse" id="tallBox_material">
+		<rgb name="reflectance" value="0.2957 0.282465 0.25705"/>
+	</bsdf>
+
+	<!--<shape type="serialized" id="cornell_box_keyhole_mesh">-->
+		<!--<string name="filename" value="cornell_box_keyhole.serialized"/>-->
+		<!--<integer name="shapeIndex" value="0"/>-->
+
+		<!--<ref name="bsdf" id="keyhole_material"/>-->
+	<!--</shape>-->
+
+	<shape type="serialized" id="cornell_box_keyhole_0_mesh">
+		<string name="filename" value="cornell_box_keyhole.serialized"/>
+		<integer name="shapeIndex" value="1"/>
+
+		<ref name="bsdf" id="ceiling_material"/>
+	</shape>
+
+	<shape type="serialized" id="cornell_box_keyhole_1_mesh">
+		<string name="filename" value="cornell_box_keyhole.serialized"/>
+		<integer name="shapeIndex" value="2"/>
+
+		<ref name="bsdf" id="shortBox_material"/>
+	</shape>
+
+	<shape type="serialized" id="cornell_box_keyhole_2_mesh">
+		<string name="filename" value="cornell_box_keyhole.serialized"/>
+		<integer name="shapeIndex" value="3"/>
+
+		<ref name="bsdf" id="leftWall_material"/>
+	</shape>
+
+	<shape type="serialized" id="cornell_box_keyhole_4_mesh">
+		<string name="filename" value="cornell_box_keyhole.serialized"/>
+		<integer name="shapeIndex" value="5"/>
+
+		<ref name="bsdf" id="floor_material"/>
+	</shape>
+
+	<shape type="serialized" id="cornell_box_keyhole_5_mesh">
+		<string name="filename" value="cornell_box_keyhole.serialized"/>
+		<integer name="shapeIndex" value="6"/>
+
+		<ref name="bsdf" id="rightWall_material"/>
+	</shape>
+
+	<shape type="serialized" id="cornell_box_keyhole_6_mesh">
+		<string name="filename" value="cornell_box_keyhole.serialized"/>
+		<integer name="shapeIndex" value="7"/>
+
+		<ref name="bsdf" id="backWall_material"/>
+	</shape>
+
+	<shape type="serialized" id="cornell_box_keyhole_7_mesh">
+		<string name="filename" value="cornell_box_keyhole.serialized"/>
+		<integer name="shapeIndex" value="8"/>
+
+		<ref name="bsdf" id="ceiling_material"/>
+	</shape>
+
+	<shape type="serialized" id="cornell_box_keyhole_8_mesh">
+		<string name="filename" value="cornell_box_keyhole.serialized"/>
+		<integer name="shapeIndex" value="9"/>
+
+		<bsdf type="diffuse"/>
+	</shape>
+
+	<bsdf type="diffuse" id="light">
+		<spectrum name="reflectance" value="400:0.78, 500:0.78, 600:0.78, 700:0.78"/>
+	</bsdf>
+
+	<!--<shape type="obj">-->
+		<!--<string name="filename" value="meshes/cbox_luminaire.obj"/>-->
+		<!--<transform name="toWorld">-->
+			<!--<translate x="0" y="5" z="0"/>-->
+		<!--</transform>-->
+
+		<!--<ref id="light"/>-->
+
+		<!--<emitter type="area">-->
+			<!--<spectrum name="radiance" value="400:0, 500:8, 600:15.6, 700:18.4"/>-->
+		<!--</emitter>-->
+	<!--</shape>-->
+
+	<shape type="serialized" id="cornell_box_keyhole_3_mesh">
+		<string name="filename" value="cornell_box_keyhole.serialized"/>
+		<integer name="shapeIndex" value="4"/>
+
+		<!--<ref name="bsdf" id="light_material"/>-->
+		<emitter type="area">
+			<!--<spectrum name="radiance" value="400:0, 500:8, 600:15.6, 700:18.4"/>-->
+			<rgb name="radiance" value="7200, 4400, 1100"/>
+		</emitter>
+	</shape>
+
+	<sensor type="perspective">
+		<float name="farClip" value="23.4796"/>
+		<float name="focusDistance" value="3.43511"/>
+		<float name="fov" value="37"/>
+		<string name="fovAxis" value="x"/>
+		<float name="nearClip" value="0.0456613"/>
+		<transform name="toWorld">
+
+			<!--<lookat target="0, 0.94, -4.1" origin="0, 0.94, 6.7" up="0, 1, 0"/>-->
+      <lookat target="0, 0.94, -4.1" origin="0, 0.94, 3.7" up="0, 1, 0"/>
+		</transform>
+
+		<sampler type="independent">
+			<integer name="sampleCount" value="4"/>
+		</sampler>
+
+		<film type="ldrfilm">
+			<integer name="height" value="512"/>
+			<integer name="width" value="512"/>
+			<float name="exposure" value="0"/>
+			<float name="gamma" value="-1"/>
+			<string name="tonemapMethod" value="gamma"/>
+			<boolean name="banner" value="false"/>
+
+			<rfilter type="gaussian"/>
+		</film>
+	</sensor>
+</scene>

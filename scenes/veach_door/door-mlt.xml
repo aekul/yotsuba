@@ -1,0 +1,337 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<scene version="0.5.0">
+	<integrator type="mymlt">
+		<integer name="maxDepth" value="8"/>
+	</integrator>
+
+	<sensor type="perspective">
+		<float name="farClip" value="2800"/>
+		<float name="focusDistance" value="1000"/>
+		<float name="fov" value="52.2034"/>
+		<string name="fovAxis" value="x"/>
+		<float name="nearClip" value="10"/>
+		<transform name="toWorld">
+
+			<lookat target="-71.1997, 71.4202, 204.321" origin="-71.39, 71.49, 205.3" up="0.013401, 0.99756, -0.0685194"/>
+		</transform>
+
+		<sampler type="independent">
+			<integer name="sampleCount" value="16"/>
+		</sampler>
+
+		<film type="ldrfilm">
+			<integer name="height" value="512"/>
+			<integer name="width" value="768"/>
+			<boolean name="banner" value="false"/>
+
+			<rfilter type="box"/>
+		</film>
+	</sensor>
+
+	<bsdf type="roughconductor" id="copper">
+		<string name="material" value="Al"/>
+		<spectrum name="specularReflectance" value=".9 .7 .5"/>
+		<float name="alpha" value="0.8"/>
+	</bsdf>
+
+	<bsdf type="bumpmap" id="bumpmetal">
+		<texture type="scale">
+			<float name="scale" value="1.0"/>
+
+			<texture type="bitmap">
+				<string name="filename" value="data/perlin.png"/>
+				<float name="uvscale" value="1.0"/>
+				<float name="uoffset" value="0.1"/>
+			</texture>
+		</texture>
+
+		<bsdf type="roughconductor">
+			<string name="material" value="Al"/>
+			<float name="alpha" value="0.15"/>
+			<spectrum name="specularReflectance" value=".8 .8 .8"/>
+		</bsdf>
+	</bsdf>
+
+	<bsdf type="diffuse" id="white">
+		<spectrum name="reflectance" value=".73"/>
+	</bsdf>
+
+	<bsdf type="diffuse" id="table_leg">
+		<spectrum name="reflectance" value=".65 .65 .47"/>
+	</bsdf>
+
+	<bsdf type="diffuse" id="door_frame">
+		<spectrum name="reflectance" value=".3 .2 .1"/>
+	</bsdf>
+
+	<bsdf type="diffuse" id="picture_frame">
+		<spectrum name="reflectance" value=".2 .1 .05"/>
+	</bsdf>
+
+	<bsdf type="diffuse" id="picture_image">
+		<texture name="reflectance" type="bitmap">
+			<string name="filename" value="data/pic.jpg"/>
+		</texture>
+	</bsdf>
+
+	<bsdf type="diffuse" id="marble">
+		<texture name="reflectance" type="bitmap">
+			<string name="filename" value="data/marble.jpg"/>
+			<float name="uvscale" value="0.4"/>
+		</texture>
+	</bsdf>
+	<!--bsdf type="coating" id="checker">
+		<float name="intIOR" value="1.075"/>
+
+		<bsdf type="diffuse">
+			<texture name="reflectance" type="bitmap">
+				<string name="filename" value="data/checker.png"/>
+			</texture>
+		</bsdf>
+	</bsdf-->
+
+	<bsdf type="roughplastic" id="checker">
+		<texture name="diffuseReflectance" type="bitmap">
+			<string name="filename" value="data/checker.png"/>
+		</texture>
+		<rgb name="specularReflectance" value="1"/>
+		<float name="intIOR" value="1.075"/>
+		<float name="alpha" value="0.04"/>
+	</bsdf>
+	<!--
+	<bsdf type="diffuse" id="checker">
+		<texture name="reflectance" type="bitmap">
+			<string name="filename" value="data/checker3.png"/>
+		</texture>
+	</bsdf>
+-->
+
+	<bsdf type="diffuse" id="wood1">
+		<texture name="reflectance" type="bitmap">
+			<string name="filename" value="data/72cf.jpg"/>
+			<float name="uvscale" value="0.95"/>
+		</texture>
+	</bsdf>
+
+	<bsdf type="diffuse" id="wood2">
+		<texture name="reflectance" type="bitmap">
+			<string name="filename" value="data/72rdf.jpg"/>
+			<float name="uvscale" value="0.95"/>
+		</texture>
+	</bsdf>
+
+	<bsdf type="dielectric" id="glass">
+		<float name="intIOR" value="1.5"/>
+		<float name="extIOR" value="1.0"/>
+		<float name="alpha" value="0.01"/>
+	</bsdf>
+
+	<shape type="obj">
+		<string name="filename" value="data/table.obj"/>
+		<transform name="toWorld">
+			<matrix value="1 0 0 0 0 0 1 0 0 -1 0 0 0 0 0 1"/>
+			<translate y="-27.42"/>
+			<scale y="1.15"/>
+			<translate y="27.42"/>
+		</transform>
+
+		<ref id="wood2"/>
+	</shape>
+
+	<shape type="obj">
+		<string name="filename" value="data/table_leg1.obj"/>
+		<transform name="toWorld">
+			<matrix value="1 0 0 0 0 0 1 0 0 -1 0 0 0 0 0 1"/>
+		</transform>
+
+		<ref id="table_leg"/>
+	</shape>
+
+	<shape type="obj">
+		<string name="filename" value="data/table_leg2.obj"/>
+		<transform name="toWorld">
+			<matrix value="1 0 0 0 0 0 1 0 0 -1 0 0 0 0 0 1"/>
+		</transform>
+
+		<ref id="table_leg"/>
+	</shape>
+
+	<shape type="obj">
+		<string name="filename" value="data/table_leg3.obj"/>
+		<transform name="toWorld">
+			<matrix value="1 0 0 0 0 0 1 0 0 -1 0 0 0 0 0 1"/>
+		</transform>
+
+		<ref id="table_leg"/>
+	</shape>
+
+	<shape type="obj">
+		<string name="filename" value="data/table_leg4.obj"/>
+		<transform name="toWorld">
+			<matrix value="1 0 0 0 0 0 1 0 0 -1 0 0 0 0 0 1"/>
+		</transform>
+
+		<ref id="table_leg"/>
+	</shape>
+
+	<shape type="obj">
+		<string name="filename" value="data/teapot1.obj"/>
+		<transform name="toWorld">
+			<matrix value="1 0 0 0 0 0 1 0 0 -1 0 0 0 0 0 1"/>
+		</transform>
+
+		<ref id="bumpmetal"/>
+	</shape>
+
+	<shape type="obj">
+		<string name="filename" value="data/teapot2.obj"/>
+		<transform name="toWorld">
+			<matrix value="1 0 0 0 0 0 1 0 0 -1 0 0 0 0 0 1"/>
+		</transform>
+
+		<ref id="marble"/>
+	</shape>
+
+	<shape type="obj">
+		<string name="filename" value="data/teapot3.obj"/>
+		<transform name="toWorld">
+			<matrix value="1 0 0 0 0 0 1 0 0 -1 0 0 0 0 0 1"/>
+		</transform>
+
+		<ref id="glass"/>
+	</shape>
+
+	<shape type="obj">
+		<string name="filename" value="data/door_frame_left.obj"/>
+		<transform name="toWorld">
+			<matrix value="1 0 0 0 0 0 1 0 0 -1 0 0 0 0 0 1"/>
+		</transform>
+
+		<ref id="door_frame"/>
+	</shape>
+
+	<shape type="obj">
+		<string name="filename" value="data/door_frame_right.obj"/>
+		<transform name="toWorld">
+			<matrix value="1 0 0 0 0 0 1 0 0 -1 0 0 0 0 0 1"/>
+		</transform>
+
+		<ref id="door_frame"/>
+	</shape>
+
+	<shape type="obj">
+		<string name="filename" value="data/door_frame_top.obj"/>
+		<transform name="toWorld">
+			<matrix value="1 0 0 0 0 0 1 0 0 -1 0 0 0 0 0 1"/>
+		</transform>
+
+		<ref id="door_frame"/>
+	</shape>
+
+	<shape type="obj">
+		<string name="filename" value="data/door.obj"/>
+		<transform name="toWorld">
+			<matrix value="1 0 0 0 0 0 1 0 0 -1 0 0 0 0 0 1"/>
+			<translate x="-0.5"/>
+		</transform>
+
+		<ref id="wood1"/>
+	</shape>
+
+	<shape type="obj">
+		<string name="filename" value="data/door_hinge1.obj"/>
+		<transform name="toWorld">
+			<matrix value="1 0 0 0 0 0 1 0 0 -1 0 0 0 0 0 1"/>
+		</transform>
+
+		<ref id="copper"/>
+	</shape>
+
+	<shape type="obj">
+		<string name="filename" value="data/door_hinge2.obj"/>
+		<transform name="toWorld">
+			<matrix value="1 0 0 0 0 0 1 0 0 -1 0 0 0 0 0 1"/>
+		</transform>
+
+		<ref id="copper"/>
+	</shape>
+
+	<shape type="obj">
+		<string name="filename" value="data/door_hinge3.obj"/>
+		<transform name="toWorld">
+			<matrix value="1 0 0 0 0 0 1 0 0 -1 0 0 0 0 0 1"/>
+		</transform>
+
+		<ref id="copper"/>
+	</shape>
+
+	<shape type="obj">
+		<string name="filename" value="data/door_knob.obj"/>
+		<transform name="toWorld">
+			<matrix value="1 0 0 0 0 0 1 0 0 -1 0 0 0 0 0 1"/>
+		</transform>
+
+		<ref id="copper"/>
+	</shape>
+
+	<shape type="obj">
+		<string name="filename" value="data/floor.obj"/>
+		<transform name="toWorld">
+			<matrix value="1 0 0 0 0 0 1 0 0 -1 0 0 0 0 0 1"/>
+		</transform>
+
+		<ref id="checker"/>
+	</shape>
+
+	<shape type="obj">
+		<string name="filename" value="data/floor01.obj"/>
+		<transform name="toWorld">
+			<matrix value="1 0 0 0 0 0 1 0 0 -1 0 0 0 0 0 1"/>
+		</transform>
+
+		<ref id="white"/>
+	</shape>
+
+	<shape type="obj">
+		<string name="filename" value="data/picture_frame.obj"/>
+		<transform name="toWorld">
+			<matrix value="1 0 0 0 0 0 1 0 0 -1 0 0 0 0 0 1"/>
+		</transform>
+
+		<ref id="picture_frame"/>
+	</shape>
+
+	<shape type="obj">
+		<string name="filename" value="data/picture_image.obj"/>
+		<transform name="toWorld">
+			<matrix value="1 0 0 0 0 0 1 0 0 -1 0 0 0 0 0 1"/>
+		</transform>
+
+		<ref id="picture_image"/>
+	</shape>
+
+	<shape type="obj">
+		<string name="filename" value="data/walls.obj"/>
+		<transform name="toWorld">
+			<matrix value="1 0 0 0 0 0 1 0 0 -1 0 0 0 0 0 1"/>
+		</transform>
+
+		<ref id="white"/>
+	</shape>
+
+	<shape type="obj">
+		<string name="filename" value="data/lamp.obj"/>
+		<transform name="toWorld">
+			<matrix value="1 0 0 0 0 0 1 0 0 -1 0 0 0 0 0 1"/>
+		</transform>
+
+		<ref id="white"/>
+
+		<emitter type="area">
+			<spectrum name="radiance" value="1704 1852 1950"/>
+			<!--	<spectrum name="radiance" value="304 352 400"/>-->
+			<!--			<spectrum name="radiance" value="1704 1852 1950"/>-->
+		</emitter>
+	</shape>
+</scene>

@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+
+	Automatically converted from COLLADA
+
+-->
+
+<scene version="0.5.0">
+	<integrator type="path">
+		<integer name="maxDepth" value="6"/>
+		<integer name="rrDepth" value="6"/>
+	</integrator>
+
+	<sensor type="perspective">
+		<float name="farClip" value="100"/>
+		<float name="focusDistance" value="3.71518"/>
+		<float name="fov" value="44.5513"/>
+		<string name="fovAxis" value="x"/>
+		<float name="nearClip" value="0.1"/>
+		<transform name="toWorld">
+
+			<lookat target="-0.261616, -5.64478, 0.309317" origin="-0.223944, -6.64245, 0.366128" up="-0.00214364, 0.0567708, 0.998385"/>
+		</transform>
+
+		<sampler type="independent"/>
+
+		<film type="ldrfilm">
+			<integer name="height" value="576"/>
+			<integer name="width" value="768"/>
+			<boolean name="banner" value="false"/>
+
+			<rfilter type="box"/>
+		</film>
+	</sensor>
+
+	<bsdf type="roughdielectric" id="Glass">
+		<float name="extIOR" value="1.0"/>
+		<float name="intIOR" value="1.5"/>
+		<float name="alpha" value="0.001"/>
+	</bsdf>
+
+	<medium type="homogeneous" id="medium">
+		<float name="scale" value="0.01"/>
+	</medium>
+
+	<bsdf type="roughplastic" id="LampMaterial">
+		<spectrum name="diffuseReflectance" value="0.61600 0.47520 0.35200"/>
+		<rgb name="specularReflectance" value="1"/>
+		<float name="alpha" value="0.04"/>
+	</bsdf>
+
+	<bsdf type="diffuse" id="Diffuse">
+		<rgb name="reflectance" value="0.5 0.5 0.5"/>
+	</bsdf>
+
+	<bsdf type="diffuse" id="Luminaire2Material">
+		<rgb name="reflectance" value="0.5 0.5 0.5"/>
+	</bsdf>
+
+	<bsdf type="diffuse" id="Luminaire1Material">
+		<rgb name="reflectance" value="0.5 0.5 0.5"/>
+	</bsdf>
+
+	<bsdf type="diffuse" id="Wood">
+		<rgb name="reflectance" value="0.32962962985 0.257976263762 0.150291711092"/>
+	</bsdf>
+
+	<shape type="serialized" id="Egg-Mesh-mesh_0">
+		<string name="filename" value="bidir.serialized"/>
+		<integer name="shapeIndex" value="0"/>
+		<transform name="toWorld">
+			<matrix value="1 0 0 -0.246439 0 -6.39758e-07 -1 0.603555 0 1 -6.39758e-07 -0.264215 0 0 0 1"/>
+		</transform>
+
+		<ref name="bsdf" id="Glass"/>
+	</shape>
+
+	<shape type="serialized" id="Lamp1Exterior_001-mesh_0">
+		<string name="filename" value="bidir.serialized"/>
+		<integer name="shapeIndex" value="1"/>
+		<transform name="toWorld">
+			<matrix value="0.199416 5.05384e-08 -5.68055e-15 -1.78712 0 -3.38985e-09 -0.199416 1.01377 -1.29956e-07 0.0775507 -8.71675e-09 -1.85546 0 0 0 1"/>
+		</transform>
+
+		<ref name="bsdf" id="LampMaterial"/>
+	</shape>
+
+	<shape type="serialized" id="Cylinder_004-mesh_0">
+		<string name="filename" value="bidir.serialized"/>
+		<integer name="shapeIndex" value="2"/>
+		<transform name="toWorld">
+			<matrix value="-0.336904 -0.125069 -0.629943 1.13947 0.00894485 0.990668 -0.0918061 0.826384 0.941496 -0.0541666 -0.224546 0.471368 0 0 0 1"/>
+		</transform>
+
+		<bsdf type="diffuse"/>
+	</shape>
+
+	<shape type="serialized" id="Cylinder_003-mesh_0">
+		<string name="filename" value="bidir.serialized"/>
+		<integer name="shapeIndex" value="3"/>
+		<transform name="toWorld">
+			<matrix value="-0.336904 -0.125069 -0.629943 1.13947 0.00894485 0.990668 -0.0918061 0.826384 0.941496 -0.0541666 -0.224546 0.471368 0 0 0 1"/>
+		</transform>
+
+		<bsdf type="diffuse"/>
+	</shape>
+
+	<shape type="serialized" id="Cylinder_001-mesh_0">
+		<string name="filename" value="bidir.serialized"/>
+		<integer name="shapeIndex" value="4"/>
+		<transform name="toWorld">
+			<matrix value="-0.336904 -0.125069 -0.629943 1.13947 0.00894485 0.990668 -0.0918061 0.826384 0.941496 -0.0541666 -0.224546 0.471368 0 0 0 1"/>
+		</transform>
+
+		<bsdf type="diffuse"/>
+	</shape>
+
+	<shape type="serialized" id="Room-mesh_0">
+		<string name="filename" value="bidir.serialized"/>
+		<integer name="shapeIndex" value="5"/>
+		<transform name="toWorld">
+			<matrix value="-2.68 0 -6.71233e-07 -0.0648966 0 0.04 0 2.01149 8.73255e-07 0 -2.06 0.118537 0 0 0 1"/>
+		</transform>
+
+		<ref name="bsdf" id="Diffuse"/>
+	</shape>
+
+	<shape type="serialized" id="Lamp2Luminaire-mesh_0">
+		<string name="filename" value="bidir.serialized"/>
+		<integer name="shapeIndex" value="6"/>
+		<transform name="toWorld">
+			<matrix value="-0.0272868 -0.652983 0.010109 1.34917 0.00777194 -0.100251 -0.0914978 0.864109 0.0808646 -0.210706 0.0122051 0.548939 0 0 0 1"/>
+		</transform>
+
+		<ref name="bsdf" id="Luminaire2Material"/>
+
+		<emitter type="area" id="Lamp2Luminaire-emission">
+			<rgb name="radiance" value="6999.999881 5450.000167 3630.000055"/>
+			<float name="samplingWeight" value="1.000000"/>
+		</emitter>
+	</shape>
+
+	<shape type="serialized" id="Lamp1Luminaire-mesh_0">
+		<string name="filename" value="bidir.serialized"/>
+		<integer name="shapeIndex" value="7"/>
+		<transform name="toWorld">
+			<matrix value="0.199416 1.29956e-07 -5.68055e-15 -1.77091 0 -8.71675e-09 -0.199416 1.00249 -1.29956e-07 0.199416 -8.71675e-09 1.00405 0 0 0 1"/>
+		</transform>
+
+		<ref name="bsdf" id="Luminaire1Material"/>
+
+		<emitter type="area" id="Lamp1Luminaire-emission">
+			<rgb name="radiance" value="500.000000 500.000000 500.000000"/>
+			<float name="samplingWeight" value="1.000000"/>
+		</emitter>
+	</shape>
+
+	<shape type="serialized" id="Lamp1Exterior-mesh_0">
+		<string name="filename" value="bidir.serialized"/>
+		<integer name="shapeIndex" value="8"/>
+		<transform name="toWorld">
+			<matrix value="0.199416 5.05384e-08 -5.68055e-15 -1.78712 0 -3.38985e-09 -0.199416 1.01377 -1.29956e-07 0.0775507 -8.71675e-09 -1.85546 0 0 0 1"/>
+		</transform>
+
+		<ref name="bsdf" id="LampMaterial"/>
+	</shape>
+
+	<shape type="serialized" id="TableFeet-Mesh-mesh_0">
+		<string name="filename" value="bidir.serialized"/>
+		<integer name="shapeIndex" value="9"/>
+		<transform name="toWorld">
+			<matrix value="0.153893 1.21175e-07 -4.38379e-15 0.240775 0 -8.12775e-09 -0.153893 0.73745 -1.00289e-07 0.185941 -6.72687e-09 -1.31929 0 0 0 1"/>
+		</transform>
+
+		<ref name="bsdf" id="Wood"/>
+	</shape>
+
+	<shape type="serialized" id="TableTop-Mesh-mesh_0">
+		<string name="filename" value="bidir.serialized"/>
+		<integer name="shapeIndex" value="10"/>
+		<transform name="toWorld">
+			<matrix value="0.199416 6.52893e-08 -5.68055e-15 0.645785 0 -4.37926e-09 -0.199416 0.727062 -1.29956e-07 0.100186 -8.71675e-09 -0.752847 0 0 0 1"/>
+		</transform>
+
+		<ref name="bsdf" id="Wood"/>
+	</shape>
+</scene>

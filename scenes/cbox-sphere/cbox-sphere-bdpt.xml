@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+
+	Automatically converted from Wavefront OBJ
+
+-->
+
+<scene version="0.5.0">
+	<integrator type="bdpt">
+		<integer name="maxDepth" value="6"/>
+		<integer name="rrDepth" value="6"/>
+	</integrator>
+
+	<bsdf type="diffuse" id="leftSphere_material">
+		<rgb name="reflectance" value="0.61 0.61 0.61"/>
+	</bsdf>
+
+	<bsdf type="diffuse" id="rightSphere_material">
+		<rgb name="reflectance" value="0.61 0.61 0.61"/>
+	</bsdf>
+
+	<bsdf type="diffuse" id="floor_material">
+		<rgb name="reflectance" value="0.725 0.71 0.68"/>
+	</bsdf>
+
+	<bsdf type="diffuse" id="ceiling_material">
+		<rgb name="reflectance" value="0.725 0.71 0.68"/>
+	</bsdf>
+
+	<bsdf type="diffuse" id="backWall_material">
+		<rgb name="reflectance" value="0.725 0.71 0.68"/>
+	</bsdf>
+
+	<bsdf type="diffuse" id="rightWall_material">
+		<rgb name="reflectance" value="0.161 0.133 0.427"/>
+	</bsdf>
+
+	<bsdf type="diffuse" id="leftWall_material">
+		<rgb name="reflectance" value="0.63 0.065 0.05"/>
+	</bsdf>
+
+	<bsdf type="diffuse" id="light_material">
+		<rgb name="reflectance" value="0.78 0.78 0.78"/>
+	</bsdf>
+
+	<bsdf type="roughconductor" id="Metal">
+		<float name="alpha" value="0.01"/>
+	</bsdf>
+
+	<bsdf type="roughdielectric" id="Glass">
+		<float name="extIOR" value="1.0"/>
+		<float name="intIOR" value="1.5"/>
+		<float name="alpha" value="0.001"/>
+	</bsdf>
+
+	<shape type="serialized" id="leftSphere_mesh">
+		<string name="filename" value="cbox-sphere.serialized"/>
+		<integer name="shapeIndex" value="0"/>
+
+		<ref name="bsdf" id="Metal"/>
+	</shape>
+
+	<shape type="serialized" id="rightSphere_mesh">
+		<string name="filename" value="cbox-sphere.serialized"/>
+		<integer name="shapeIndex" value="1"/>
+
+		<ref name="bsdf" id="Glass"/>
+	</shape>
+
+	<shape type="serialized" id="floor_mesh">
+		<string name="filename" value="cbox-sphere.serialized"/>
+		<integer name="shapeIndex" value="2"/>
+
+		<ref name="bsdf" id="floor_material"/>
+	</shape>
+
+	<shape type="serialized" id="ceiling_mesh">
+		<string name="filename" value="cbox-sphere.serialized"/>
+		<integer name="shapeIndex" value="3"/>
+
+		<ref name="bsdf" id="ceiling_material"/>
+	</shape>
+
+	<shape type="serialized" id="backWall_mesh">
+		<string name="filename" value="cbox-sphere.serialized"/>
+		<integer name="shapeIndex" value="4"/>
+
+		<ref name="bsdf" id="backWall_material"/>
+	</shape>
+
+	<shape type="serialized" id="rightWall_mesh">
+		<string name="filename" value="cbox-sphere.serialized"/>
+		<integer name="shapeIndex" value="5"/>
+
+		<ref name="bsdf" id="rightWall_material"/>
+	</shape>
+
+	<shape type="serialized" id="leftWall_mesh">
+		<string name="filename" value="cbox-sphere.serialized"/>
+		<integer name="shapeIndex" value="6"/>
+
+		<ref name="bsdf" id="leftWall_material"/>
+	</shape>
+
+	<shape type="serialized" id="light_mesh">
+		<string name="filename" value="cbox-sphere.serialized"/>
+		<integer name="shapeIndex" value="7"/>
+
+		<bsdf type="diffuse"/>
+
+		<emitter type="area">
+			<spectrum name="radiance" value="400:0, 500:8, 600:15.6, 700:18.4"/>
+		</emitter>
+	</shape>
+
+	<sensor type="perspective">
+		<float name="farClip" value="12.5884"/>
+		<float name="focusDistance" value="4.35724"/>
+		<float name="fov" value="45"/>
+		<string name="fovAxis" value="x"/>
+		<float name="nearClip" value="0.0243836"/>
+		<transform name="toWorld">
+
+			<lookat target="-0.0196976, 0.767516, 2.31713" origin="-0.0190361, 0.75933, 3.3171" up="-5.78315e-05, 0.999967, 0.00818605"/>
+		</transform>
+
+		<sampler type="independent"/>
+
+		<film type="ldrfilm">
+			<integer name="height" value="576"/>
+			<integer name="width" value="768"/>
+			<string name="filename" value="cbox-sphere.png"/>
+			<boolean name="banner" value="false"/>
+
+			<rfilter type="box"/>
+		</film>
+	</sensor>
+</scene>

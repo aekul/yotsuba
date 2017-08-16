@@ -1,0 +1,61 @@
+Import('env', 'sys', 'plugins')
+
+plugins += env.SharedLibrary('ao', ['direct/ao.cpp'])
+plugins += env.SharedLibrary('direct', ['direct/direct.cpp'])
+plugins += env.SharedLibrary('path', ['path/path.cpp'])
+plugins += env.SharedLibrary('volpath', ['path/volpath.cpp'])
+plugins += env.SharedLibrary('volpath_simple', ['path/volpath_simple.cpp'])
+plugins += env.SharedLibrary('ptracer', ['ptracer/ptracer.cpp', 'ptracer/ptracer_proc.cpp'])
+
+# Photon mapping-based techniques
+plugins += env.SharedLibrary('photonmapper', ['photonmapper/photonmapper.cpp', 'photonmapper/bre.cpp'])
+plugins += env.SharedLibrary('ppm', ['photonmapper/ppm.cpp'])
+plugins += env.SharedLibrary('sppm', ['photonmapper/sppm.cpp'])
+
+# Miscellaneous
+plugins += env.SharedLibrary('vpl', ['vpl/vpl.cpp'])
+plugins += env.SharedLibrary('adaptive', ['misc/adaptive.cpp'])
+plugins += env.SharedLibrary('irrcache', ['misc/irrcache.cpp', 'misc/irrcache_proc.cpp'])
+plugins += env.SharedLibrary('multichannel', ['misc/multichannel.cpp'])
+plugins += env.SharedLibrary('field', ['misc/field.cpp'])
+plugins += env.SharedLibrary('motion', ['misc/motion.cpp'])
+
+common = ['myintegrators/samplingutils.cpp',
+			'myintegrators/integrand.cpp',
+			'myintegrators/parallel.cpp',
+			'myintegrators/appendsensor.cpp',
+			'myintegrators/appendbsdf.cpp',
+			'myintegrators/appendemitter.cpp',
+			'myintegrators/sampleseedpaths.cpp',
+			'myintegrators/classification.cpp',
+			'myintegrators/occlusioncache.cpp',]
+
+plugins += env.SharedLibrary('mydirect', ['myintegrators/mydirect.cpp'] + common)
+plugins += env.SharedLibrary('mypath', ['myintegrators/mypath.cpp'] + common)
+#plugins += env.SharedLibrary('myptracer', ['myintegrators/myptracer.cpp'] + common)
+plugins += env.SharedLibrary('mybidir', ['myintegrators/mybidir.cpp'] + common)
+plugins += env.SharedLibrary('mymlt', ['myintegrators/mymlt.cpp', 'myintegrators/bidirmutation.cpp', 'myintegrators/lensperturbation.cpp', 'myintegrators/causticsperturbation.cpp', 'myintegrators/multichainperturbation.cpp', 'myintegrators/mutation.cpp'] + common)
+plugins += env.SharedLibrary('mytridir', ['myintegrators/mytridir.cpp', 'myintegrators/appendkeyhole.cpp'] + common)
+plugins += env.SharedLibrary('mygpt', ['myintegrators/mygpt.cpp', 'myintegrators/poissonsolver.cpp'] + common)
+
+# Bidirectional techniques
+bidirEnv = env.Clone()
+bidirEnv.Append(LIBS=['mitsuba-bidir'])
+bidirEnv.Append(LIBPATH=['#src/libbidir'])
+
+plugins += bidirEnv.SharedLibrary('bdpt',
+	['bdpt/bdpt.cpp', 'bdpt/bdpt_wr.cpp', 'bdpt/bdpt_proc.cpp'])
+
+plugins += bidirEnv.SharedLibrary('pssmlt',
+	['pssmlt/pssmlt.cpp', 'pssmlt/pssmlt_sampler.cpp',
+    'pssmlt/pssmlt_proc.cpp']);
+
+plugins += bidirEnv.SharedLibrary('mlt',
+	['mlt/mlt.cpp', 'mlt/mlt_proc.cpp']
+)
+
+plugins += bidirEnv.SharedLibrary('erpt',
+	['erpt/erpt.cpp', 'erpt/erpt_proc.cpp']
+)
+
+Export('plugins')
