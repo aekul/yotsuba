@@ -1,6 +1,6 @@
 # Yotsuba
 
-Yotsuba is [Mitsuba](https://github.com/mitsuba-renderer/mitsuba) based renderer that uses [Aether](https://github.com/aekul/aether) to generate samples and compute PDFs.
+Yotsuba is a [Mitsuba](https://github.com/mitsuba-renderer/mitsuba) based renderer that uses [Aether](https://github.com/aekul/aether) to generate samples and compute PDFs.
 
 ## Learning About Aether/Yotsuba
 
