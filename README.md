@@ -10,6 +10,12 @@ A more extensive tutorial is available [here](https://people.csail.mit.edu/lukea
 
 ## Compiling
 
+Yotsuba depends on [Aether](https://github.com/aekul/aether).  Aether is a header-only library, so you can either copy the aether folder to include, or clone the repository directly through the following commands:
+```
+cd include
+git clone https://github.com/aekul/aether
+```
+
 Yotsuba uses the same build system as [Mitsuba](https://github.com/mitsuba-renderer/mitsuba) but there are some things to be aware of when editing `config.py`.
 
 Yotsuba has been tested with clang 3.7 (using -std=c++1z and -std=libc++) so make sure that `config.py` is configured to use an appropriate version of clang and contains the flags:
