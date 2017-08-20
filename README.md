@@ -16,7 +16,7 @@ cd include
 git clone https://github.com/aekul/aether
 ```
 
-Yotsuba uses the same build system as [Mitsuba](https://github.com/mitsuba-renderer/mitsuba) but there are some things to be aware of when editing `config.py`.
+Yotsuba uses the same build system as [Mitsuba](https://github.com/mitsuba-renderer/mitsuba) (see Mitsuba's [documentation](https://www.mitsuba-renderer.org/releases/current/documentation.pdf) for build instructions) but there are some things to be aware of when editing `config.py`.
 
 Yotsuba has been tested with clang 3.7 (using -std=c++1z and -std=libc++) so make sure that `config.py` is configured to use an appropriate version of clang and contains the flags:
 ```bash
