@@ -33,3 +33,6 @@ Aether makes extensive use of template metaprogramming. To avoid template/conste
 -fconstexpr-depth=720
 ```
 
+## Contact
+
+Please contact Tzu-Mao Li (tzumao at mit.edu) or Luke Anderson (lukea at mit.edu) if there are any issues/comments/questions.
